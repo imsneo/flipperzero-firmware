@@ -461,6 +461,20 @@ int32_t infrared_app(void* p) {
             scene_manager_next_scene(infrared->scene_manager, InfraredSceneStart);
         }
     }
+    
+        if(is_rpc_mode) {
+        view_dispatcher_attach_to_gui(
+            infrared->view_dispatcher, infrared->gui, ViewDispatcherTypeDesktop);
+        scene_manager_next_scene(infrared->scene_manager, InfraredSceneRpc);
+    } else {
+        view_dispatcher_attach_to_gui(
+            infrared->view_dispatcher, infrared->gui, ViewDispatcherTypeFullscreen);
+        if(is_remote_loaded) {
+            scene_manager_next_scene(infrared->scene_manager, InfraredSceneRemote);
+        } else {
+            scene_manager_next_scene(infrared->scene_manager, InfraredSceneStart);
+        }
+    }
 
     view_dispatcher_run(infrared->view_dispatcher);
 
